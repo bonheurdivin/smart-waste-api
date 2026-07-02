@@ -203,4 +203,67 @@ class AuthController {
           'message' => 'Password changed successfully'
       ]);
   }
+
+ // Update profile picture
+ public function updateProfilePicture() {
+        $decoded = AuthMiddleware::authenticate();
+    
+        if (!isset($_FILES['photo'])) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No photo provided'
+            ]);
+            return;
+        }
+
+        $file = $_FILES['photo'];
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        
+        if (!in_array($file['type'], $allowedTypes)) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Only JPG, JPEG, and PNG images are allowed.'
+            ]);
+            return;
+        }
+
+        $filename = 'profile_' . $decoded['user_id'] . '_' . time() . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+        $uploadPath = 'uploads/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            http_response_code(500);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to upload photo'
+            ]);
+            return;
+        }
+    
+        $photoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/smart-waste-api/' . $uploadPath;
+
+        $stmt = $this->conn->prepare(
+            "UPDATE users SET photo_url = ? WHERE id = ?"
+        );
+        $stmt->bind_param('si', $photoUrl, $decoded['user_id']);
+        $stmt->execute();
+
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Profile picture updated successfully',
+            'data' => ['photo_url' => $photoUrl]
+        ]);
+    }
+
+    // GET my profile
+    public function getMyProfile() {
+        $decoded = AuthMiddleware::authenticate();
+        $user = $this->userModel->findById($decoded['user_id']);
+        unset($user['password']);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $user
+        ]);
+    }
 }

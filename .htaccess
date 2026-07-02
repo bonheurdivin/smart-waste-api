@@ -1,9 +1,8 @@
 Options -Multiviews
 RewriteEngine On
-RewriteBase /smart-waste-api
+RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
 
-# Fix Authorization header for XAMPP
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

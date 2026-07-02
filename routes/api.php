@@ -375,6 +375,17 @@ if ($requestUri === '/api/v1/auth/change-password' && $requestMethod === 'POST')
     exit();
 }
 
+// Profile routes
+if ($requestUri === '/api/v1/auth/profile' && $requestMethod === 'GET') {
+    $authController->getMyProfile();
+    exit();
+}
+
+if ($requestUri === '/api/v1/auth/profile/picture' && $requestMethod === 'POST') {
+    $authController->updateProfilePicture();
+    exit();
+}
+
 // Routes with ID parameter
 if (preg_match('/^\/api\/v1\/households\/(\d+)$/', $requestUri, $matches)) {
     $id = $matches[1];

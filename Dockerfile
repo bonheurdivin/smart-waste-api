@@ -3,7 +3,7 @@ FROM php:8.2-apache
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Install mysqli extension
+# Install mysqli and other extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install composer
@@ -28,6 +28,9 @@ RUN echo '<Directory /var/www/html>\n\
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
+
+# Fix MPM error
+RUN a2dismod mpm_event && a2enmod mpm_prefork
 
 EXPOSE 80
 

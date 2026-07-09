@@ -1,59 +1,39 @@
 # Smart Waste Collection System — Backend API
 
-A RESTful API built with PHP and MySQL that powers the Smart Waste Collection System platform.
+A RESTful API built with PHP and MySQL that powers the Smart Waste Collection System platform, serving both the web admin panel and the mobile app.
 
-## Tech Stack
-- PHP 8.x
+## 🌐 Live API
+https://smart-waste-collector.up.railway.app/api/v1
+
+## 🛠️ Tech Stack
+- PHP 8.2
 - MySQL 8.x
-- Apache (XAMPP)
-- JWT Authentication
-- Firebase PHP-JWT
+- JWT Authentication (firebase/php-jwt)
+- Docker (Railway deployment)
+- Apache/PHP CLI Server
 
-## Features
+## ✨ Features
 - JWT-based authentication with role-based access control
-- Household management
+- Resident registration and household management
 - Worker and vehicle fleet management
-- Pickup scheduling and tracking
-- Payment tracking
+- Pickup scheduling and real-time tracking
+- Payment tracking with mobile money confirmation flow
 - Complaints management
-- Push notifications
+- Push notifications logging
 - Analytics and reports
+- Profile picture upload
+- Password management
 
-## Roles
-- **Admin** — Full access
-- **Dispatcher** — Manages routes, workers and pickups
-- **Finance** — Manages payments and reports
-- **Resident** — Mobile app user
-- **Worker** — Field employee
+## 👥 User Roles
+| Role | Description |
+|------|-------------|
+| Admin | Full system access |
+| Dispatcher | Manages routes, workers and pickups |
+| Finance | Manages payments and revenue reports |
+| Resident | Mobile app user |
+| Worker | Field employee |
 
-## Installation
-
-### Requirements
-- XAMPP (PHP 8.x + MySQL 8.x)
-- Composer
-
-### Steps
-1. Clone the repository:
-```bash
-   git clone https://github.com/bonheurdivin/smart-waste-api.git
-```
-2. Move to XAMPP htdocs:
-```bash
-   mv smart-waste-api C:/xampp/htdocs/
-```
-3. Install dependencies:
-```bash
-   cd smart-waste-api
-   composer install
-```
-4. Create database:
-   - Open phpMyAdmin at `http://localhost/phpmyadmin`
-   - Create database named `smart_waste_db`
-   - Import `database.sql` file
-5. Start XAMPP Apache and MySQL
-6. Test API at `http://localhost/smart-waste-api/api/v1`
-
-## API Endpoints
+## 📡 API Endpoints
 
 ### Authentication
 | Method | Endpoint | Description | Auth |
@@ -61,6 +41,13 @@ A RESTful API built with PHP and MySQL that powers the Smart Waste Collection Sy
 | POST | `/api/v1/auth/register` | Register resident | None |
 | POST | `/api/v1/auth/login` | Login | None |
 | POST | `/api/v1/auth/change-password` | Change password | Required |
+| GET | `/api/v1/auth/profile` | Get my profile | Required |
+| POST | `/api/v1/auth/profile/picture` | Update profile picture | Required |
+| GET | `/api/v1/users/residents` | Get all residents | Admin |
+| GET | `/api/v1/users/workers` | Get all worker users | Admin |
+| POST | `/api/v1/staff/register` | Register staff member | Admin |
+| GET | `/api/v1/staff` | Get all staff | Admin |
+| DELETE | `/api/v1/staff/:id` | Delete staff member | Admin |
 
 ### Households
 | Method | Endpoint | Description | Auth |
@@ -77,7 +64,7 @@ A RESTful API built with PHP and MySQL that powers the Smart Waste Collection Sy
 |--------|----------|-------------|------|
 | GET | `/api/v1/workers` | Get all workers | Admin/Dispatcher |
 | GET | `/api/v1/workers/:id` | Get one worker | Admin/Dispatcher |
-| POST | `/api/v1/workers` | Create worker | Admin |
+| POST | `/api/v1/workers` | Create worker profile | Admin |
 | POST | `/api/v1/workers/register` | Register worker with account | Admin |
 | PUT | `/api/v1/workers/:id` | Update worker | Admin |
 | DELETE | `/api/v1/workers/:id` | Delete worker | Admin |
@@ -138,44 +125,90 @@ A RESTful API built with PHP and MySQL that powers the Smart Waste Collection Sy
 | GET | `/api/v1/notifications/my` | Get my notifications | Resident |
 | POST | `/api/v1/notifications/send` | Send notification | Admin/Dispatcher |
 
+### Plans
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/v1/plans` | Get all plans | None |
+| GET | `/api/v1/plans/:id` | Get one plan | None |
+| POST | `/api/v1/plans` | Create plan | Admin |
+| PUT | `/api/v1/plans/:id` | Update plan | Admin |
+| DELETE | `/api/v1/plans/:id` | Delete plan | Admin |
+
 ### Reports
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | GET | `/api/v1/reports/dashboard` | Dashboard summary | Admin |
-| GET | `/api/v1/reports/daily-pickups` | Daily pickups | Admin |
+| GET | `/api/v1/reports/daily-pickups` | Daily pickups report | Admin/Dispatcher |
 | GET | `/api/v1/reports/monthly-revenue` | Monthly revenue | Admin/Finance |
 | GET | `/api/v1/reports/worker-productivity` | Worker productivity | Admin/Dispatcher |
 | GET | `/api/v1/reports/high-volume-zones` | High volume zones | Admin/Dispatcher |
 
-## Project Structure
+## 🚀 Local Installation
 
+### Requirements
+- XAMPP (PHP 8.x + MySQL 8.x)
+- Composer
+
+### Steps
+1. Clone the repository:
+```bash
+   git clone https://github.com/bonheurdivin/smart-waste-api.git
+   cd smart-waste-api
+```
+2. Install dependencies:
+```bash
+   composer install
+```
+3. Create database in phpMyAdmin named `smart_waste_db`
+4. Import `smart_waste_db.sql`
+5. Update `config/database.php` with your credentials
+6. Start XAMPP Apache and MySQL
+7. Test at `http://localhost/smart-waste-api/api/v1`
+
+## 📁 Project Structure
 smart-waste-api/
-
 ├── app/
-
 │   ├── controllers/
-
+│   │   ├── AuthController.php
+│   │   ├── HouseholdController.php
+│   │   ├── WorkerController.php
+│   │   ├── VehicleController.php
+│   │   ├── ScheduleController.php
+│   │   ├── PickupController.php
+│   │   ├── PaymentController.php
+│   │   ├── ComplaintController.php
+│   │   ├── NotificationController.php
+│   │   └── ReportController.php
 │   ├── models/
-
+│   │   ├── User.php
+│   │   ├── Household.php
+│   │   ├── Worker.php
+│   │   ├── Vehicle.php
+│   │   ├── Schedule.php
+│   │   ├── Pickup.php
+│   │   ├── Payment.php
+│   │   ├── Complaint.php
+│   │   └── Notification.php
 │   └── middleware/
-
+│       ├── AuthMiddleware.php
+│       └── RoleMiddleware.php
 ├── config/
-
 │   └── database.php
-
 ├── routes/
-
 │   └── api.php
-
 ├── uploads/
-
-├── vendor/
-
+├── Dockerfile
+├── router.php
 ├── .htaccess
-
 ├── index.php
-
 └── README.md
 
-## Author
-Divin — Internship Project 2026
+## 🔐 Default Credentials
+Admin Phone: +250788999999
+Admin Password: admin123
+Resident Phone: +250788123456
+Resident Password: password123
+
+## 👨‍💻 Author
+**Divin** — Internship Project 2026
+- GitHub: [@bonheurdivin](https://github.com/bonheurdivin)

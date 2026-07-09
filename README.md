@@ -43,9 +43,6 @@ https://smart-waste-collector.up.railway.app/api/v1
 | POST | `/api/v1/auth/profile/picture` | Update profile picture | Required |
 | GET | `/api/v1/users/residents` | Get all residents | Admin |
 | GET | `/api/v1/users/workers` | Get all worker users | Admin |
-| POST | `/api/v1/staff/register` | Register staff member | Admin |
-| GET | `/api/v1/staff` | Get all staff | Admin |
-| DELETE | `/api/v1/staff/:id` | Delete staff member | Admin |
 
 ### Households
 | Method | Endpoint | Description | Auth |

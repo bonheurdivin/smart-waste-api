@@ -28,8 +28,6 @@ https://smart-waste-collector.up.railway.app/api/v1
 | Role | Description |
 |------|-------------|
 | Admin | Full system access |
-| Dispatcher | Manages routes, workers and pickups |
-| Finance | Manages payments and revenue reports |
 | Resident | Mobile app user |
 | Worker | Field employee |
 
@@ -62,8 +60,8 @@ https://smart-waste-collector.up.railway.app/api/v1
 ### Workers
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/workers` | Get all workers | Admin/Dispatcher |
-| GET | `/api/v1/workers/:id` | Get one worker | Admin/Dispatcher |
+| GET | `/api/v1/workers` | Get all workers | Admin |
+| GET | `/api/v1/workers/:id` | Get one worker | Admin |
 | POST | `/api/v1/workers` | Create worker profile | Admin |
 | POST | `/api/v1/workers/register` | Register worker with account | Admin |
 | PUT | `/api/v1/workers/:id` | Update worker | Admin |
@@ -72,8 +70,8 @@ https://smart-waste-collector.up.railway.app/api/v1
 ### Vehicles
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/vehicles` | Get all vehicles | Admin/Dispatcher |
-| GET | `/api/v1/vehicles/:id` | Get one vehicle | Admin/Dispatcher |
+| GET | `/api/v1/vehicles` | Get all vehicles | Admin |
+| GET | `/api/v1/vehicles/:id` | Get one vehicle | Admin |
 | POST | `/api/v1/vehicles` | Create vehicle | Admin |
 | PUT | `/api/v1/vehicles/:id` | Update vehicle | Admin |
 | DELETE | `/api/v1/vehicles/:id` | Delete vehicle | Admin |
@@ -81,41 +79,41 @@ https://smart-waste-collector.up.railway.app/api/v1
 ### Schedules
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/schedules` | Get all schedules | Admin/Dispatcher |
-| GET | `/api/v1/schedules/:id` | Get one schedule | Admin/Dispatcher |
+| GET | `/api/v1/schedules` | Get all schedules | Admin |
+| GET | `/api/v1/schedules/:id` | Get one schedule | Admin |
 | GET | `/api/v1/schedules/household/:id` | Get by household | Admin/Resident |
-| POST | `/api/v1/schedules` | Create schedule | Admin/Dispatcher |
-| PUT | `/api/v1/schedules/:id` | Update schedule | Admin/Dispatcher |
+| POST | `/api/v1/schedules` | Create schedule | Admin |
+| PUT | `/api/v1/schedules/:id` | Update schedule | Admin |
 | DELETE | `/api/v1/schedules/:id` | Delete schedule | Admin |
 
 ### Pickups
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/pickups` | Get all pickups | Admin/Dispatcher |
+| GET | `/api/v1/pickups` | Get all pickups | Admin |
 | GET | `/api/v1/pickups/:id` | Get one pickup | Admin/Resident |
 | GET | `/api/v1/pickups/household/:id` | Get by household | Admin/Resident |
-| POST | `/api/v1/pickups` | Create pickup | Admin/Dispatcher/Resident |
-| PUT | `/api/v1/pickups/:id` | Update pickup | Admin/Dispatcher |
+| POST | `/api/v1/pickups` | Create pickup | Admin/Resident |
+| PUT | `/api/v1/pickups/:id` | Update pickup | Admin |
 | POST | `/api/v1/pickups/:id/rate` | Rate pickup | Resident |
 
 ### Payments
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/payments` | Get all payments | Admin/Finance |
-| GET | `/api/v1/payments/:id` | Get one payment | Admin/Finance/Resident |
+| GET | `/api/v1/payments` | Get all payments | Admin |
+| GET | `/api/v1/payments/:id` | Get one payment | Admin/Resident |
 | GET | `/api/v1/payments/household/:id` | Get by household | Admin/Resident |
-| POST | `/api/v1/payments` | Create payment | Admin/Finance/Resident |
-| PUT | `/api/v1/payments/:id` | Update payment | Admin/Finance/Resident |
+| POST | `/api/v1/payments` | Create payment | Admin/Resident |
+| PUT | `/api/v1/payments/:id` | Update payment | Admin/Resident |
 | DELETE | `/api/v1/payments/:id` | Delete payment | Admin |
 
 ### Complaints
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/complaints` | Get all complaints | Admin/Dispatcher |
+| GET | `/api/v1/complaints` | Get all complaints | Admin |
 | GET | `/api/v1/complaints/:id` | Get one complaint | Admin/Resident |
 | GET | `/api/v1/complaints/household/:id` | Get by household | Admin/Resident |
 | POST | `/api/v1/complaints` | Submit complaint | Resident |
-| PUT | `/api/v1/complaints/:id` | Update complaint | Admin/Dispatcher |
+| PUT | `/api/v1/complaints/:id` | Update complaint | Admin |
 | DELETE | `/api/v1/complaints/:id` | Delete complaint | Admin |
 
 ### Notifications
@@ -123,7 +121,7 @@ https://smart-waste-collector.up.railway.app/api/v1
 |--------|----------|-------------|------|
 | GET | `/api/v1/notifications` | Get all notifications | Admin |
 | GET | `/api/v1/notifications/my` | Get my notifications | Resident |
-| POST | `/api/v1/notifications/send` | Send notification | Admin/Dispatcher |
+| POST | `/api/v1/notifications/send` | Send notification | Admin |
 
 ### Plans
 | Method | Endpoint | Description | Auth |
@@ -138,10 +136,10 @@ https://smart-waste-collector.up.railway.app/api/v1
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | GET | `/api/v1/reports/dashboard` | Dashboard summary | Admin |
-| GET | `/api/v1/reports/daily-pickups` | Daily pickups report | Admin/Dispatcher |
-| GET | `/api/v1/reports/monthly-revenue` | Monthly revenue | Admin/Finance |
-| GET | `/api/v1/reports/worker-productivity` | Worker productivity | Admin/Dispatcher |
-| GET | `/api/v1/reports/high-volume-zones` | High volume zones | Admin/Dispatcher |
+| GET | `/api/v1/reports/daily-pickups` | Daily pickups report | Admin |
+| GET | `/api/v1/reports/monthly-revenue` | Monthly revenue | Admin |
+| GET | `/api/v1/reports/worker-productivity` | Worker productivity | Admin |
+| GET | `/api/v1/reports/high-volume-zones` | High volume zones | Admin |
 
 ## 🚀 Local Installation
 
@@ -210,5 +208,5 @@ Resident Phone: +250788123456
 Resident Password: password123
 
 ## 👨‍💻 Author
-**Divin** — Internship Project 2026
+**Divin** — Project 2026
 - GitHub: [@bonheurdivin](https://github.com/bonheurdivin)
